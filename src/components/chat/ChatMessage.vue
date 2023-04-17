@@ -6,26 +6,26 @@
 <script lang="ts">
     export default {
         props: {
-            sender: {
-                type: String,
-                default: 'me'
-            },
-            handle: {
-                type: String,
-                default: ''
-            },
-            role: {
-                type: String,
-                default: ''
-            },
-            sent: {
-                type: String,
-                default: ''
+            message: {
+                type: Object,
+                default: {}
             }
         },
         computed: {
-            justifyContentStyle() {
-                return this.sender === 'me' ? 'flex-end' : 'flex-start';
+            me() : boolean {
+                return this.message.member?.id === this.$ls.get('memberId');
+            },
+            justifyContentStyle() : string {
+                return this.me ? 'flex-end' : 'flex-start';
+            },
+            sender() : string {
+                return this.me ? 'me' : 'other';
+            },
+            name() : string {
+                return this.message.member?.ai ? 'ChatGPT' : this.message.member?.user?.firstName + ' ' + this.message.member?.user?.lastName;
+            },
+            roles() : any[] {
+                return this.message.member?.roles;
             }
         }
     }
@@ -35,18 +35,19 @@
     <div class="chat-message-wrapper" :attr-sender="sender">
         <div class="chat-handle">
             <Flex gap="10px" align-items="center" :justifyContent="justifyContentStyle">
-                <Badge>{{ handle }}</Badge>
-                <Badge>{{ role }}</Badge>
-                
+                <Badge>{{ name }}</Badge>
+                <template v-for="role in roles">
+                    <Badge>{{ role.name }}</Badge>
+                </template>
             </Flex>
         </div>
         <div class="chat-message">
             <span class="message-output">
-                <slot></slot>
+                {{ message.content }}
             </span>            
         </div>
         <time>
-            {{ sent }}
+            {{ message.sent }}
         </time>
     </div>
 </template>
@@ -65,6 +66,7 @@
 
 .chat-message .message-output {
     color: #000;
+    word-wrap: break-word;
 }
 
 .chat-handle {

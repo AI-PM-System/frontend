@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useFetch } from '@/composables/fetch'
+import { useFetchAuth } from '@/composables/fetch'
 
 import Flex from '@/components/Flex.vue'
 import InputControl from '@/components/InputControl.vue'
-import Button from '@/components/Button.vue'
 import ChatMessage from '@/components/chat/ChatMessage.vue'
 
 import IconGear from '@/components/icons/IconGear.vue'
@@ -13,21 +12,62 @@ import IconGear from '@/components/icons/IconGear.vue'
 export default {
     data() {
         return {
-            message: ''
+            message: '',
+            newMessages: []
         };
     },
-    props: {
-        joinInfo: {
-            type: String,
-            default: ''
+    computed: {
+        emptyState() {
+            return this.outputMessages.length === 0;
+        },
+        outputMessages() {
+            return [...this.messages, ...this.newMessages];
+        },
+        joinInfo() {
+            return this.chat.name ? this.chat.name : this.additionalJoinInfo;
         }
     },
+    props: {
+        chat: {
+            type: Object,
+            default: {}
+        },
+        messages: {
+            type: Array,
+            default: []
+        },
+        emptyStateMsg: {
+            type: String,
+            default: 'Seems like you\'re the first one here. Say hi to start the conversation!'
+        },
+        additionalJoinInfo: {
+            type: String,
+            default: ''
+        },
+        handleSendMessage: {
+            type: Function,
+            default: () => {}
+        }
+    },
+    methods: {
+        sendMessage(e) {
+            if (e.code == 'Enter' || e.code == 'NumpadEnter') {
+                this.handleSendMessage(
+                    this.message,
+                    this.chat.id,
+                    this.$ls.get('memberId'),
+                    this.$ls.get('username'),
+                    this.$ls.get('jwt'),
+                    (json: any) => {
+                        this.newMessages.push(json);
+                        this.message = '';
+                    }
+                );
+            }
+        }
+    }
 };
 
-const handleLogin = () => {
-    const { data, error } = useFetch("http://localhost:8080/api/v1/public/authenticate");
-    console.log(data, error);
-};
 </script>
 
 <template>
@@ -38,25 +78,18 @@ const handleLogin = () => {
     -->
     <div class="chat-output">
         <div class="chat-output-info">
-            - {{ joinInfo }} -
+            --- Joined {{ joinInfo }} ---
         </div>
-        <ChatMessage sender="me" handle="Nicolai" role="Developer Team" sent="22/22/2222 15:15">
-            Hey!
-        </ChatMessage>
-        <ChatMessage sender="other" handle="ChatGPT" role="SCRUM Master" sent="22/22/2222 15:15">
-            Yo!
-        </ChatMessage>    
-        <ChatMessage sender="other" handle="ChatGPT" role="SCRUM Master" sent="22/22/2222 15:15">
-            <p>Opened a new event: <strong>Sprint review</strong></p>            
-            <p>Attendees: <strong>Nicolai, ChatGPT, John Doe</strong></p>
-            <Button display="block" bg="#333">Join</Button>
-        </ChatMessage>
-        <div class="chat-output-info">
-            - Joined event (Sprint review) -
-        </div>
-        <ChatMessage sender="other" handle="ChatGPT" role="SCRUM Master" sent="22/22/2222 15:15">
-            Todays agenda are ...
-        </ChatMessage>    
+
+        <template v-if="emptyState">
+            <p class="chat-output-info">
+                <slot name="emptyState"></slot>
+            </p>
+        </template>
+        
+        <template v-for="__message in outputMessages">
+            <ChatMessage :message="__message" />
+        </template>
     </div>
 
     <!--
@@ -67,7 +100,7 @@ const handleLogin = () => {
     <div class="chat-input">
         <InputControl>
             <Flex alignItems="center" gap="10px">
-                <input v-model="message" placeholder="Enter message ..." />
+                <input v-model="message" placeholder="Enter message ..." @keydown="sendMessage" />
                 <div class="icon">
                     <IconGear />
                 </div>

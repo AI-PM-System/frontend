@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFetch } from '@/composables/fetch'
+import { useFetchAuth } from '@/composables/fetch'
 import ProjectItem from '@/components/project/ProjectItem.vue';
 import Button from '@/components/Button.vue';
 import StickyElement from '@/components/StickyElement.vue';
@@ -13,15 +13,14 @@ export default {
         }
     },
     mounted() {
-        useFetch("http://localhost:8080/api/v1/user/projects", {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${this.$ls.get('jwt')}`
+        useFetchAuth("http://localhost:8080/api/v1/user/projects", 
+            this.$ls.get('jwt'),
+            { 
+                method: 'GET' 
+            }, (json : any) => {
+                this.projects = json;
             }
-        }, (json) => {
-            this.projects = json;
-        });
+        );
     },
     computed: {
         emptyState() {

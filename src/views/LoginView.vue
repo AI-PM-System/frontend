@@ -36,6 +36,15 @@ export default {
                 const { jwt } = json;
                 this.$ls.set('jwt', jwt);
                 this.$router.push('/projects');
+
+                // Parse jwt token
+                const base64Url = jwt.split('.')[1];
+                const base64 = base64Url.replace('-', '+').replace('_', '/');
+                const decodedJwt = JSON.parse(window.atob(base64));
+                
+                this.$ls.set('username', decodedJwt.sub);
+                this.$ls.set('authorities', decodedJwt.authorities);
+                this.$ls.set('exp', decodedJwt.exp);
             });
         }
     },
@@ -83,7 +92,9 @@ export default {
             <Button display="block" @click="handleLogin">Login</Button>
         </InputControl>
 
-        <Button display="block" bg="var(--color-primary)" @click="this.$router.push('/signup')">Don't have an account?
+        <Button display="block" 
+                bg="var(--color-primary)" 
+                @click="this.$router.push('/signup')">Don't have an account?
             Signup</Button>
     </Container>
 </template>

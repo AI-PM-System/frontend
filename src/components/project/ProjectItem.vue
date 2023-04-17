@@ -1,4 +1,6 @@
 <script setup lang="ts">
+    import { useFetchAuth } from '@/composables/fetch'
+
     import Badge from '@/components/Badge.vue'
     import Button from '@/components/Button.vue'
     import Flex from '@/components/Flex.vue'
@@ -10,26 +12,34 @@
             project: {
                 type: Object,
                 default: {}
+            }
+        },
+        computed: {
+            fetchMemberUrl() {
+                return `http://localhost:8080/api/v1/user/members/project/${this.project.id}/user/${this.$ls.get('username')}`;
             },
-            title: {
-                type: String,
-                default: ''
+            openUrl() {
+                return `/chat/${this.project.mainChat.id}`;
             },
-            status: {
-                type: String,
-                default: ''
+            manageUrl() {
+                return `/projects/${this.project.id}/manage`;
+            }
+        },
+        methods: {
+            openProject() {
+                useFetchAuth(this.fetchMemberUrl, 
+                    this.$ls.get('jwt'),
+                    { 
+                        method: 'GET' 
+                    }, (json : any) => {
+                        this.$ls.set('memberId', json.id);
+                        this.$ls.set('memberRoles', json.roles);
+                    }
+                );
+                this.$router.push(this.openUrl);
             },
-            description: {
-                type: String,
-                default: ''
-            },
-            humanCount: {
-                type: String,
-                default: '0'
-            },
-            aiCount: {
-                type: String,
-                default: '0'
+            manageProject() {
+                this.$router.push(this.manageUrl);
             }
         }
     }
@@ -40,22 +50,27 @@
     <div class="project-item">
         <div class="project-item__header">
             <Flex gap="10px" align-items="center" justifyContent="space-between">
-                <h3>{{ title }}</h3>
+                <h3>#{{ project.id }} {{ project.name }}</h3>
                 <div>
                     <Flex gap="10px" align-items="center" justifyContent="flex-end">
-                        <Badge>Human: {{ humanCount }}</Badge>
-                        <Badge>AI: {{ aiCount }}</Badge>
-                        <Badge>{{ status }}</Badge>
+                        <Badge>Members: {{ project.members.length }}</Badge>
+                        <Badge>Roles: {{ project.roles.length }}</Badge>
+                        <Badge>Events: {{ project.events.length }}</Badge>
                     </Flex>
                 </div>
             </Flex>
 
             <div class="project-item__description">
-                {{ description }}
+                {{ project.description }}
             </div>
 
             <div class="project-item__actions">
-                <Button bg="var(--color-primary)" display="block">Open</Button>
+                <Button bg="var(--color-primary)"
+                        display="block"
+                        @click="manageProject">Manage</Button>
+                <Button bg="var(--color-primary)" 
+                        display="block"
+                        @click="openProject">Open</Button>
             </div>
         </div>
     </div>
@@ -72,6 +87,10 @@
 
 .project-item__description {
     margin: 1rem 0;
+}
+
+.project-item__actions button {
+    margin: 0.5rem 0;
 }
 
 </style>

@@ -13,6 +13,11 @@ export default {
         joinInfo() {
             return `Joined chat (${this.$route.params.id})`;
         }
+    },
+    methods: {
+        openProjects() {
+            this.$router.push('/projects');
+        },
     }
 };
 
@@ -21,18 +26,12 @@ export default {
 <template>
     <div class="project-manage">
 
-        <div class="project-grid">
-            <Button display="block" bg="#333">Edit details</Button>
-            <Button display="block" bg="#333">Members</Button>
-            <Button display="block" bg="#333">Roles</Button>
-            <Button display="block" bg="#333">Events</Button>        
-        </div>
-        
+        <Button display="block" bg="#333">Edit details</Button>
         <Button display="block" bg="red">Delete project</Button>
     </div>
 
     <StickyElement top="auto" padding="1rem">
-        <Button display="block" bg="#333">Close</Button>
+        <Button display="block" bg="#333" @click="openProjects">Close</Button>
     </StickyElement>
 </template>
 
@@ -41,11 +40,7 @@ export default {
     margin: 1rem;
 }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-gap: 1rem;
-    margin-bottom: 1rem;
+.project-manage button {
+    margin: 1rem 0;
 }
 </style>
