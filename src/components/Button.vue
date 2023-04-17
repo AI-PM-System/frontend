@@ -1,0 +1,32 @@
+<script lang="ts">
+    export default {
+        props: {
+            bg: {
+                type: String,
+                default: ''
+            },
+            display: {
+                type: String,
+                default: 'inline-block'
+            }
+        }
+    }
+</script>
+
+<template>
+    <button class="button" :attr-display="display" :style=" { backgroundColor: bg }">
+        <slot></slot>
+    </button>
+</template>
+
+<style scoped>
+
+    button[attr-display="inline-block"] {
+        display: inline-block;
+    }
+
+    button[attr-display="block"] {
+        display: block;
+        width: 100%;
+    }
+</style>

@@ -1,0 +1,35 @@
+@import './base.css';
+
+#app {
+  max-width: 1280px;
+  margin: 0 auto;  
+
+  font-weight: normal;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+  transition: 0.4s;
+}
+
+a,
+.green {
+  text-decoration: none;
+  color: hsl(160deg 100% 57.13%);
+  transition: 0.4s;
+}
+
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
+}
+
+@media (min-width: 1024px) {
+  
+}
