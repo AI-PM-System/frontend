@@ -1,14 +1,24 @@
 <script setup lang="ts">
 import { useFetchAuth } from '@/composables/fetch'
-import Chat from '@/components/chat/Chat.vue';
-import ChatMessage from '@/components/chat/ChatMessage.vue';
+
+import ChatOutput from '@/components/chat/ChatOutput.vue';
+import ChatMessage from '@/components/chat/ChatMessage.vue'
+
+import Flex from '@/components/Flex.vue'
+import StickyElement from '@/components/StickyElement.vue';
+import InputControl from '@/components/InputControl.vue'
+import Button from '@/components/Button.vue';
+
+import IconCheck from '@/components/icons/IconCheck.vue'
 </script>
 
 <script lang="ts">
 export default {
     data() {
         return {
-            chat: {},
+            content: '',
+            messages: [] as any[],
+            generatorId: 0,
             example: {
                 member: {
                     user: {
@@ -29,35 +39,65 @@ export default {
         }
     },
     methods: {
-        handleSendMessage: (message: string, chatId: Number, memberId: Number, username: string, jwt: string, callback: Function) => {
-            useFetchAuth(`http://localhost:8080/api/v1/user/chats/generator`,
-                jwt,
-                {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        content: message,
-                        chatId: 0,
-                        memberId,
-                        username
-                    })
-                }, (json: any) => {
-                    callback(json);
-                }
-            );
+        sendMessage (e : any) {
+            if (e.code != 'Enter' && e.code != 'NumpadEnter') {
+                return;
+            }
+
+            const content = this.content;
+            const generatorId = this.generatorId;
+            console.log(content);
+            console.log(generatorId);
+            if (this.generatorId == 0) {
+                useFetchAuth(`http://localhost:8080/api/v1/user/generate/project/new`,
+                    this.$ls.get('jwt'),
+                    {
+                        method: 'POST',
+                        body: JSON.stringify({content})
+                    }, (json: any) => {
+                        this.generatorId = json.id;
+                        this.messages.push(... json.messages);
+                        this.content = '';                
+                    }
+                );
+            } else {
+                useFetchAuth(`http://localhost:8080/api/v1/user/generate/project/proceed`,
+                    this.$ls.get('jwt'),
+                    {
+                        method: 'POST',
+                        body: JSON.stringify({content, generatorId})
+                    }, (json: any) => {
+                        this.messages.push(... json);
+                        this.content = '';                
+                    }
+                );
+            }
         }
     },
 }
 </script>
 
 <template>
-    <Chat additionalJoinInfo="Project Generator" :handleSendMessage="handleSendMessage">
+
+    <ChatOutput joinInfo="Project Generator" :messages="messages">
         <template #emptyState>
             <div class="empty-state">
                 <p>Tell ChatGPT about your project to get started.</p>
                 <ChatMessage :message="example" class="example-message" />
             </div>
         </template>
-    </Chat>
+    </ChatOutput>
+
+    <StickyElement top="auto" padding="1rem 1rem 0 1rem" class="output">
+        <InputControl>
+            <Flex alignItems="center" gap="10px">
+                <input v-model="content" placeholder="Enter message ..." @keydown="sendMessage" />
+                <Button class="complete-button" bg="hsl(160deg 100% 57.13%)" color="#000">
+                    <IconCheck />
+                </Button>
+            </Flex>
+        </InputControl>
+    </StickyElement>
 </template>
 
 <style scoped>
@@ -77,5 +117,14 @@ export default {
 
 .empty-state .example-message {
     text-align: left;
+}
+
+.output {
+    background: var(--color-background);
+}
+
+.complete-button {
+    padding: 0.72rem 0.75rem;
+    width: fit-content;
 }
 </style>

@@ -5,6 +5,10 @@
                 type: String,
                 default: ''
             },
+            color: {
+                type: String,
+                default: ''
+            },
             display: {
                 type: String,
                 default: 'inline-block'
@@ -14,12 +18,16 @@
 </script>
 
 <template>
-    <button class="button" :attr-display="display" :style=" { backgroundColor: bg }">
+    <button class="button" :attr-display="display" :style=" { backgroundColor: bg, color }">
         <slot></slot>
     </button>
 </template>
 
 <style scoped>
+
+    button {
+        cursor: pointer;
+    }
 
     button[attr-display="inline-block"] {
         display: inline-block;

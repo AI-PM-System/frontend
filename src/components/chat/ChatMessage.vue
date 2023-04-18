@@ -13,7 +13,7 @@
         },
         computed: {
             me() : boolean {
-                return this.message.member?.id === this.$ls.get('memberId');
+                return this.message.user?.username === this.$ls.get('username');
             },
             justifyContentStyle() : string {
                 return this.me ? 'flex-end' : 'flex-start';
@@ -22,7 +22,7 @@
                 return this.me ? 'me' : 'other';
             },
             name() : string {
-                return this.message.member?.ai ? 'ChatGPT' : this.message.member?.user?.firstName + ' ' + this.message.member?.user?.lastName;
+                return this.message.user ? this.message.user?.firstName + ' ' + this.message.user?.lastName : 'ChatGPT';
             },
             roles() : any[] {
                 return this.message.member?.roles;
@@ -46,6 +46,7 @@
                 {{ message.content }}
             </span>            
         </div>
+        
         <time>
             {{ message.sent }}
         </time>
