@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 import { findAllByProjectId } from '@/composables/event';
+
+import EmptyState from '@/components/utilities/EmptyState.vue';
+import Container from '@/components/utilities/Container.vue';
+import EventItem from '@/components/event/EventItem.vue';
 import StickyElement from '@/components/utilities/StickyElement.vue';
 import Button from '@/components/utilities/Button.vue';
 </script>
@@ -16,6 +20,9 @@ export default {
         backToMainChat() {
             this.$router.push('/chat/' + this.$ls.get('projectId'));
         },
+        newEvent() {
+            this.$router.push('/event/new');
+        }
     },
     mounted() {
         findAllByProjectId(this.$ls.get('projectId'), (json) => {
@@ -31,24 +38,22 @@ export default {
 </script>
 
 <template>
-    <div class="event-list">
+    <Container>
         <template v-for="event in events">
-            <div>
-                <h3>{{ event.name }}</h3>
-                <p>{{ event.agenda }}</p>
-                <p>{{ event.location }}</p>
-                <p>{{ event.startDateTime }}</p>
-                <p>{{ event.endDateTime }}</p>
-                <br><hr /><br>
-            </div>
+            <EventItem :event="event" />            
         </template>
-    </div>
+
+        <EmptyState v-if="events.length === 0">
+            <h2>No events found.</h2>
+        </EmptyState>
+    </Container>
 
     <StickyElement 
         top="auto" 
         padding="1rem" 
         bg="var(--color-background)">
 
+        <Button display="block" @click="newEvent" margin="0 0 .5rem 0">New event</Button>
         <Button display="block" @click="backToMainChat">Close</Button>
     </StickyElement>
 </template>

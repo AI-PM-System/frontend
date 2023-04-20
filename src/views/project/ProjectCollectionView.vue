@@ -2,6 +2,8 @@
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 import { findAll } from '@/composables/project';
 
+import EmptyState from '@/components/utilities/EmptyState.vue';
+import Container from '@/components/utilities/Container.vue';
 import ProjectItem from '@/components/project/ProjectItem.vue';
 import Button from '@/components/utilities/Button.vue';
 import StickyElement from '@/components/utilities/StickyElement.vue';
@@ -27,26 +29,21 @@ export default {
         showGenerateProject() {
             this.$router.push('/generate/project');
         }
-    },
-    computed: {
-        emptyState() {
-            return this.projects.length === 0;
-        }
     }
 }
 </script>
 
 
 <template>
-    <div class="project-list">
+    <Container>
         <template v-for="project in projects">
-            <ProjectItem :project="project" />
+            <ProjectItem :project="project" class="project-item" />
         </template>
 
-        <div class="empty-state" v-if="emptyState">
+        <EmptyState v-if="projects.length === 0">
             <h2>You have no projects.</h2>
-        </div>
-    </div>
+        </EmptyState>
+    </Container>
 
     <StickyElement 
         top="auto" 
@@ -61,11 +58,11 @@ export default {
 </template>
 
 <style scoped>
-.project-list {
-    margin-bottom: 5rem;
+.empty-state {
+    text-align: center;
 }
 
-.project-list .empty-state {
-    text-align: center;
+.project-item {
+    margin-bottom: 1rem;
 }
 </style>

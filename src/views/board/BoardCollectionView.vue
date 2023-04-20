@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
-import { findAllByProjectId } from '@/composables/role';
+import { findAllByProjectId } from '@/composables/board';
 
 import EmptyState from '@/components/utilities/EmptyState.vue';
 import Container from '@/components/utilities/Container.vue';
-import RoleItem from '@/components/role/RoleItem.vue';
+import BoardItem from '@/components/board/BoardItem.vue';
 import StickyElement from '@/components/utilities/StickyElement.vue';
 import Button from '@/components/utilities/Button.vue';
 </script>
@@ -13,20 +13,20 @@ import Button from '@/components/utilities/Button.vue';
 export default {
     data() {
         return {
-            roles: []
+            boards: []
         }
     },
     methods: {
         backToMainChat() {
             this.$router.push('/chat/' + this.$ls.get('projectId'));
         },
-        newRole() {
-            this.$router.push('/role/new');
+        newBoard() {
+            this.$router.push('/board/new');
         }
     },
     mounted() {
         findAllByProjectId(this.$ls.get('projectId'), (json) => {
-            this.roles.push(... json);
+            this.boards.push(... json);
         }, (err) => {
             console.log(err);
         });
@@ -39,12 +39,12 @@ export default {
 
 <template>
     <Container>
-        <template v-for="role in roles">
-            <RoleItem :role="role" />
+        <template v-for="board in boards">
+            <BoardItem :board="board" />
         </template>
 
-        <EmptyState v-if="roles.length === 0">
-            <h2>No roles found.</h2>
+        <EmptyState v-if="boards.length === 0">
+            <h2>No boards found.</h2>
         </EmptyState>
     </Container>
 
@@ -53,7 +53,8 @@ export default {
         padding="1rem" 
         bg="var(--color-background)">
 
-        <Button display="block" @click="newRole" margin="0 0 .5rem 0">New role</Button>
+        <Button display="block" @click="newBoard" margin="0 0 .5rem 0">New board</Button>
         <Button display="block" @click="backToMainChat">Close</Button>
     </StickyElement>
 </template>
+

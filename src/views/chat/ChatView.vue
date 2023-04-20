@@ -12,7 +12,6 @@ import Button from '@/components/utilities/Button.vue';
 
 import ProjectInfo from '@/components/project/ProjectInfo.vue';
 
-import IconGear from '@/components/icons/IconGear.vue';
 import IconBar from '@/components/icons/IconBar.vue';
 
 import ITask from '@/components/task/ITask.ts';
@@ -126,12 +125,6 @@ export default {
                     class="icon" 
                     @click="toggleProjectInfo">
                     <IconBar />
-                </Button>
-
-                <Button 
-                    class="icon" 
-                    @click="toggleProjectInfo">
-                    <IconGear />
                 </Button>
             </Flex>
         </InputControl>

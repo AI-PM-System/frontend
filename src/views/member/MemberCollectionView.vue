@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 import { findAllByProjectId } from '@/composables/member';
+
+import EmptyState from '@/components/utilities/EmptyState.vue';
+import Container from '@/components/utilities/Container.vue';
+import MemberItem from '@/components/member/MemberItem.vue';
 import StickyElement from '@/components/utilities/StickyElement.vue';
 import Button from '@/components/utilities/Button.vue';
 </script>
@@ -16,6 +20,9 @@ export default {
         backToMainChat() {
             this.$router.push('/chat/' + this.$ls.get('projectId'));
         },
+        newMember() {
+            this.$router.push('/member/new');
+        }
     },
     mounted() {
         findAllByProjectId(this.$ls.get('projectId'), (json) => {
@@ -31,20 +38,22 @@ export default {
 </script>
 
 <template>
-    <div class="role-list">
+    <Container>
         <template v-for="member in members">
-            <div>
-                <p>{{ member }}</p>
-                <br><hr /><br>
-            </div>
+            <MemberItem :member="member" />
         </template>
-    </div>
+
+        <EmptyState v-if="members.length === 0">
+            <h2>No members found.</h2>
+        </EmptyState>
+    </Container>
 
     <StickyElement 
         top="auto" 
         padding="1rem" 
         bg="var(--color-background)">
 
+        <Button display="block" @click="newMember" margin="0 0 .5rem 0">New member</Button>
         <Button display="block" @click="backToMainChat">Close</Button>
     </StickyElement>
 </template>

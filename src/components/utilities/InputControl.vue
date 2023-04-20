@@ -11,7 +11,9 @@
         margin-bottom: 1rem;
     }
 
-    .input-control input {
+    .input-control select,
+    .input-control input,
+    .input-control textarea {
         width: 100%;
         padding: 0.95rem;
         border-radius: 4px;
@@ -19,6 +21,16 @@
         background: #191919;
         color: var(--color-text);
         font-size: 1rem;
+    }
+
+    .input-control select {
+        height: 5rem;
+        resize: vertical;
+    }
+
+    .input-control textarea {
+        min-height: 100px;
+        resize: vertical;
     }
 
     .input-control input:focus {
@@ -31,10 +43,14 @@
         display: flex;
         place-items: center;
         place-content: center;
-        padding: 0.9rem 0.8rem;
+        padding: 0.95rem 0.85rem;
         border-radius: 4px;
         
         background: #191919;
         color: var(--color-text);
+    }
+
+    .input-control button.icon {
+        padding: 0.75rem 0.7rem;
     }
 </style>

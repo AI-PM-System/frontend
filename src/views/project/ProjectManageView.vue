@@ -2,13 +2,13 @@
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 
 import Button from '@/components/utilities/Button.vue';
-import Flex from '@/components/utilities/Flex.vue';
+import Container from '@/components/utilities/Container.vue';
 import StickyElement from '@/components/utilities/StickyElement.vue';
 </script>
 
 <script lang="ts">
 export default {
-        
+
     computed: {
         joinInfo() {
             return `Joined chat (${this.$route.params.id})`;
@@ -17,6 +17,27 @@ export default {
     methods: {
         openProjects() {
             this.$router.push('/projects');
+        },
+        editProject() {
+            this.$router.push(`/projects/${this.$route.params.id}/edit`);
+        },
+        showEvents() {
+            this.$router.push(`/events`);
+        },
+        showTasks() {
+            this.$router.push(`/tasks`);
+        },
+        showMembers() {
+            this.$router.push(`/members`);
+        },
+        showRoles() {
+            this.$router.push(`/roles`);
+        },
+        showChats() {
+            this.$router.push(`/chats`);
+        },
+        showBoards() {
+            this.$router.push(`/boards`);
         },
     },
     mounted() {
@@ -27,23 +48,24 @@ export default {
 </script>
 
 <template>
-    <div class="project-manage">
-
-        <Button display="block" bg="#333" margin="0 0 .5rem 0">Edit details</Button>
-        <Button display="block" bg="red">Delete project</Button>
-    </div>
+    <Container>
+        <Button display="block" bg="var(--color-background)" @click="editProject">Edit details</Button>
+        <Button display="block" bg="var(--color-background)" @click="showRoles">Roles</Button>
+        <Button display="block" bg="var(--color-background)" @click="showEvents">Events</Button>
+        <Button display="block" bg="var(--color-background)" @click="showMembers">Members</Button>
+        <Button display="block" bg="var(--color-background)" @click="showTasks">Tasks</Button>
+        <Button display="block" bg="var(--color-background)" @click="showChats">Chats</Button>
+        <Button display="block" bg="var(--color-background)" @click="showBoards">Boards</Button>
+        <Button display="block" bg="var(--color-danger)" color="var(--color-background)">Delete project</Button>
+    </Container>
 
     <StickyElement top="auto" padding="1rem" bg="var(--color-background)">
-        <Button display="block" bg="#333" @click="openProjects">Close</Button>
+        <Button display="block" bg="var(--color-background)" @click="openProjects">Close</Button>
     </StickyElement>
 </template>
 
 <style scoped>
-.project-manage {    
-    margin: 1rem;
-}
-
-.project-manage button {
-    margin: 1rem 0;
+button {
+    margin: 0 0 .5rem 0 !important;
 }
 </style>

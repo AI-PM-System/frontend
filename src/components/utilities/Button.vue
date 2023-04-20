@@ -43,5 +43,5 @@ button[attr-display="inline-block"] {
 button[attr-display="block"] {
     display: block;
     width: 100%;
-}    
+}
 </style>

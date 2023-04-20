@@ -7,7 +7,7 @@
 <style scoped>
     .container {
         max-width: 1024px;
-        margin: auto;
+        margin: auto auto 5rem auto;
         padding: 1rem;
     }
 </style>

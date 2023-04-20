@@ -80,7 +80,6 @@ import Flex from '@/components/utilities/Flex.vue'
     border: 1px solid var(--color-text);
     border-radius: 5px;
     padding: 1rem;
-    margin: 1rem;
 }
 
 .project-item__description {

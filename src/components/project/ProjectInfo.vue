@@ -41,15 +41,15 @@ import type IAlert from '@/components/alert/IAlert.ts';
             showEvents() {
                 this.$router.push(`/events`);
             },
-            showTasks() {
-                this.$router.push(`/tasks`);
-            },
             showMembers() {
                 this.$router.push(`/members`);
             },
             showRoles() {
                 this.$router.push(`/roles`);
-            }
+            },
+            showBoards() {
+                this.$router.push(`/boards`);
+            },
         }
     }
 </script>
@@ -77,7 +77,7 @@ import type IAlert from '@/components/alert/IAlert.ts';
 
                     <Button 
                         display="block" 
-                        @click="showTasks">Tasks</Button>
+                        @click="showBoards">Boards</Button>
                 </Flex>
                 <Flex gap="10px" class="spacing">
                     <Button 
@@ -92,6 +92,10 @@ import type IAlert from '@/components/alert/IAlert.ts';
                     display="block" 
                     margin="0 0 .5rem 0"
                     @click="manageProject">Manage project</Button>
+                <Button 
+                    display="block" 
+                    margin="0 0 .5rem 0"
+                    @click="changeProject">Change project</Button>
                 <Button 
                     display="block" 
                     @click="toggleVisiblity">Close</Button>

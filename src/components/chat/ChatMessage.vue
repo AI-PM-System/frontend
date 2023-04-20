@@ -45,9 +45,7 @@
             </Flex>
         </div>
         <div class="chat-message">
-            <span class="message-output">
-                {{ message.content }}
-            </span>            
+            <span class="message-output" v-html="message.content"></span>            
         </div>
         
         <time>

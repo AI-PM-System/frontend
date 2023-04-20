@@ -34,9 +34,7 @@ export default {
                         Two are designers and the two last are developers.\
                         We have a budget of $10,000. We need a website that is\
                         responsive and has a blog. We want to use a CMS like Wordpress.\
-                        We want to use Github for version control.\
-                        The project should follow the Scrum methodology,\
-                        and you should be the Scrum Master."
+                        We want to use Github for version control."
             }
         }
     },
