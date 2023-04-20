@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useFetch } from '@/composables/fetch'
+import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 
-import Button from '@/components/Button.vue';
-import Flex from '@/components/Flex.vue';
-import StickyElement from '@/components/StickyElement.vue';
+import Button from '@/components/utilities/Button.vue';
+import Flex from '@/components/utilities/Flex.vue';
+import StickyElement from '@/components/utilities/StickyElement.vue';
 </script>
 
 <script lang="ts">
@@ -18,6 +18,9 @@ export default {
         openProjects() {
             this.$router.push('/projects');
         },
+    },
+    mounted() {
+        routeLoginIfNotAuthenticated();
     }
 };
 
@@ -26,11 +29,11 @@ export default {
 <template>
     <div class="project-manage">
 
-        <Button display="block" bg="#333">Edit details</Button>
+        <Button display="block" bg="#333" margin="0 0 .5rem 0">Edit details</Button>
         <Button display="block" bg="red">Delete project</Button>
     </div>
 
-    <StickyElement top="auto" padding="1rem">
+    <StickyElement top="auto" padding="1rem" bg="var(--color-background)">
         <Button display="block" bg="#333" @click="openProjects">Close</Button>
     </StickyElement>
 </template>

@@ -1,9 +1,12 @@
 <script setup lang="ts">
-    import { useFetchAuth } from '@/composables/fetch'
+import { findMyMemberByProjectId } from '@/composables/member';
+import { findByTypeAndProjectId } from '@/composables/chat';
 
-    import Badge from '@/components/Badge.vue'
-    import Button from '@/components/Button.vue'
-    import Flex from '@/components/Flex.vue'
+import Badge from '@/components/utilities/Badge.vue'
+import Button from '@/components/utilities/Button.vue'
+import Flex from '@/components/utilities/Flex.vue'
+
+    
 </script>
 
 <script lang="ts">
@@ -14,32 +17,27 @@
                 default: {}
             }
         },
-        computed: {
-            fetchMemberUrl() {
-                return `http://localhost:8080/api/v1/user/members/project/${this.project.id}/user/${this.$ls.get('username')}`;
-            },
-            openUrl() {
-                return `/chat/${this.project.mainChat.id}`;
-            },
-            manageUrl() {
-                return `/projects/${this.project.id}/manage`;
-            }
-        },
         methods: {
             openProject() {
-                useFetchAuth(this.fetchMemberUrl, 
-                    this.$ls.get('jwt'),
-                    { 
-                        method: 'GET' 
-                    }, (json : any) => {
-                        this.$ls.set('memberId', json.id);
-                        this.$ls.set('memberRoles', json.roles);
-                    }
-                );
-                this.$router.push(this.openUrl);
+                const onLoadProjectMember = () => {
+                    findByTypeAndProjectId('MAIN', this.project.id, (json) => {
+                        this.$ls.set('mainChatId', json.id);
+                        this.$router.push(`/chat/${json.id}`);
+                    }, (error) => {
+                        console.log(error);
+                    });
+                }
+
+                findMyMemberByProjectId(this.project.id, (json) => {
+                    this.$ls.set('memberId', json.id);
+                    this.$ls.set('memberRoles', json.roles);
+                    onLoadProjectMember();
+                }, (error) => {
+                    console.log(error);
+                });
             },
             manageProject() {
-                this.$router.push(this.manageUrl);
+                this.$router.push(`/project/${this.project.id}/manage`);
             }
         }
     }
@@ -90,7 +88,7 @@
 }
 
 .project-item__actions button {
-    margin: 0.5rem 0;
+    margin: 0.5rem 0 !important;
 }
 
 </style>

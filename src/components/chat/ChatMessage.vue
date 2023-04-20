@@ -1,6 +1,6 @@
 <script setup lang="ts">
-    import Badge from '@/components/Badge.vue'
-    import Flex from '@/components/Flex.vue'
+    import Badge from '@/components/utilities/Badge.vue'
+    import Flex from '@/components/utilities/Flex.vue'
 </script>
 
 <script lang="ts">
@@ -22,7 +22,10 @@
                 return this.me ? 'me' : 'other';
             },
             name() : string {
-                return this.message.user ? this.message.user?.firstName + ' ' + this.message.user?.lastName : 'ChatGPT';
+                if (this.me)
+                    return 'You';
+                else
+                    return this.message.user ? this.message.user?.firstName + ' ' + this.message.user?.lastName : 'ChatGPT';
             },
             roles() : any[] {
                 return this.message.member?.roles;

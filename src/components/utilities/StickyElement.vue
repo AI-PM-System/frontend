@@ -21,13 +21,22 @@
             padding: {
                 type: String,
                 default: '0'
+            },
+            width: {
+                type: String,
+                default: 'auto'
+            },
+            bg: {
+                type: String,
+                default: 'white'
             }
         }
     }
 </script>
 
 <template>
-    <div class="sticky-element" :style=" { top, left, right, bottom, padding }">
+    <div class="sticky-element" 
+         :style=" { top, left, right, bottom, padding, width: width, backgroundColor: bg }">
         <slot></slot>
     </div>
 </template>

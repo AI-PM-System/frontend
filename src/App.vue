@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import Flex from '@/components/Flex.vue'
-import { authenticated, isAuthenticated } from '@/composables/auth';
+import { isAuthenticated, logout } from '@/composables/authentication';
 
+import Flex from '@/components/utilities/Flex.vue'
+
+import IconLogout from '@/components/icons/IconLogout.vue';
+import IconDiagram from '@/components/icons/IconDiagram.vue';
+import IconLogin from '@/components/icons/IconLogin.vue';
+import IconHome from '@/components/icons/IconHome.vue';
 </script>
 
 <script lang="ts">
@@ -14,22 +19,15 @@ export default {
     },
     methods: {
         handleLogout() {
-            this.$ls.remove('jwt');
-            authenticated.value = false;
+            logout();
             this.$router.push('/login');
         },
-        setAuthenticated() {
-            authenticated.value = this.$ls.get('jwt') !== null;
-        }
     },
-    mounted() {
-      this.setAuthenticated();
-    },
-    watch: {
-        $route(to, from) {
-          this.setAuthenticated();
-        }
-    }
+    //watch: {
+        //$route(to, from) {
+        //  this.setAuthenticated();
+        //}
+    //}
 };
 </script>
 
@@ -39,11 +37,21 @@ export default {
       <RouterLink to="/" class="brand">UniTaskPro</RouterLink>
 
       <Flex alignItems="center" gap="10px" width="auto">
-        <RouterLink to="/" v-if="!authenticated">Home</RouterLink>
-        <RouterLink to="/login" v-if="!authenticated">Login</RouterLink>
-        <RouterLink to="/projects" v-if="authenticated">Projects</RouterLink>  
+        <RouterLink to="/" v-if="!isAuthenticated">
+          <IconHome />
+        </RouterLink>
 
-        <a v-if="authenticated" @click="handleLogout">Logout</a>  
+        <RouterLink to="/login" v-if="!isAuthenticated">
+          <IconLogin />
+        </RouterLink>
+
+        <RouterLink to="/projects" v-if="isAuthenticated">
+          <IconDiagram />
+        </RouterLink>  
+
+        <button v-if="isAuthenticated" @click="handleLogout">
+          <IconLogout />
+        </button>
       </Flex>
     </Flex>
   </header>
@@ -64,6 +72,7 @@ header {
   left: 0;
   right: 0;
   z-index: 1000;
+  box-shadow: 0 2px 10px var(--color-shadow);
 }
 
 .brand {
@@ -80,7 +89,26 @@ header {
   padding-top: 5rem;
 }
 
-@media (min-width: 1024px) {
-  
+
+
+button {
+  background: none;
+  border: none;
+  color: var(--color-success);
+  cursor: pointer;
+  font-size: 1.5rem;
+  padding: 0 0 .16rem 0;
+}
+
+button,
+a {
+  padding-left: .5rem;
+  padding-right: .5rem;
+}
+
+button:hover,
+a:hover {
+  background: none;
+  color: var(--color-success-hover);
 }
 </style>

@@ -33,6 +33,14 @@
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
 
+  --color-success: hsl(160deg 100% 57.13%);
+  --color-success-hover: hsla(160, 100%, 37%, 0.2);
+
+  --color-danger: hsl(0deg 100% 57.13%);
+  --color-danger-hover: hsla(0, 100%, 37%, 0.2);
+
+  --color-shadow: rgba(0, 0, 0, 0.1);
+
   --section-gap: 160px;
 }
 

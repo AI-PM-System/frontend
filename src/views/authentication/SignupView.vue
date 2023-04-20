@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { useFetch } from '@/composables/fetch'
+import { setJwt } from '@/composables/authentication';
+import { create } from '@/composables/user';
 
 // Components
-import Container from '@/components/Container.vue'
-import InputControl from '@/components/InputControl.vue'
-import Button from '@/components/Button.vue'
-import Flex from '@/components/Flex.vue'
+import Container from '@/components/utilities/Container.vue'
+import InputControl from '@/components/utilities/InputControl.vue'
+import Button from '@/components/utilities/Button.vue'
+import Flex from '@/components/utilities/Flex.vue'
 
 // Icons
 import IconAt from '@/components/icons/IconAt.vue'
@@ -28,15 +29,30 @@ export default {
             email: '',
             phonenumber: ''
         };
+    }, methods: {
+        handleSignup() {
+            if (this.password !== this.confirmPassword) {
+                console.log('Passwords do not match');
+                return;
+            }
+
+            create({
+                username: this.username,
+                password: this.password,
+                firstname: this.firstname,
+                lastname: this.lastname,
+                email: this.email,
+                phonenumber: this.phonenumber
+            }, (json) => {
+                const { jwt } = json;
+                setJwt(jwt);
+                this.$router.push('/projects');
+            }, (error) => {
+                console.log(error);
+            });
+        }
     }
 };
-
-const handleSignup = () => {
-    const { data, error } = useFetch("http://localhost:8080/api/v1/public/authenticate");
-    console.log(data, error);
-};
-
-
 </script>
 
 <template>
