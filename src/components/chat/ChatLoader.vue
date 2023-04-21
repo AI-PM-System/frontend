@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import IconDot from '@/components/icons/IconDot.vue';
 </script>
 

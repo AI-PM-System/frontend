@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import Badge from '@/components/utilities/Badge.vue'
 import Button from '@/components/utilities/Button.vue';
 import Flex from '../utilities/Flex.vue';
 </script>

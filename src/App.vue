@@ -22,12 +22,7 @@ export default {
             logout();
             this.$router.push('/login');
         },
-    },
-    //watch: {
-        //$route(to, from) {
-        //  this.setAuthenticated();
-        //}
-    //}
+    }
 };
 </script>
 

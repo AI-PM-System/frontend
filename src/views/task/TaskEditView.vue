@@ -13,9 +13,9 @@ export default {
     data() {
         return {
             task: {},
-            boardId: parseInt(this.$route.params.id),
-            listId: parseInt(this.$route.params.listId),
-            taskId: parseInt(this.$route.params.taskId)
+            boardId: parseInt(this.$route.params.id as string),
+            listId: parseInt(this.$route.params.listId as string),
+            taskId: parseInt(this.$route.params.taskId as string)
         }
     },
     mounted() {

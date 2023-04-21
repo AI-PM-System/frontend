@@ -14,8 +14,6 @@ import ProjectInfo from '@/components/project/ProjectInfo.vue';
 
 import IconBar from '@/components/icons/IconBar.vue';
 
-import ITask from '@/components/task/ITask.ts';
-import IAlert from '@/components/alert/IAlert.ts';
 </script>
 
 <script lang="ts">
@@ -25,9 +23,9 @@ export default {
             content: '',
             chat: {} as any,
             messages: [] as any[],
-            alerts: [] as IAlert[],
-            projectId: 0 as Number,
-            visible: false as Boolean
+            alerts: [] as any[],
+            projectId: 0 as any,
+            visible: false as any
         }
     },
     computed: {

@@ -5,7 +5,6 @@ import { findByTypeAndProjectId } from '@/composables/chat';
 import Badge from '@/components/utilities/Badge.vue'
 import Button from '@/components/utilities/Button.vue'
 import Flex from '@/components/utilities/Flex.vue'
-
     
 </script>
 

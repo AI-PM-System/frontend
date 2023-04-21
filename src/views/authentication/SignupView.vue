@@ -50,6 +50,9 @@ export default {
             }, (error) => {
                 console.log(error);
             });
+        },
+        showLogin() {
+            this.$router.push('/login');
         }
     }
 };
@@ -165,7 +168,7 @@ export default {
             <Button display="block" @click="handleSignup">Signup</Button>
         </InputControl>
 
-        <Button display="block" bg="var(--color-primary)" @click="this.$router.push('/login')">Already have an account? Login</Button>
+        <Button display="block" bg="var(--color-primary)" @click="showLogin">Already have an account? Login</Button>
     </Container>
 </template>
   

@@ -12,8 +12,8 @@ import Button from '@/components/utilities/Button.vue';
 export default {
     data() {
         return {
-            boardId: parseInt(this.$route.params.id),
-            listId: parseInt(this.$route.params.listId),
+            boardId: parseInt(this.$route.params.id as string),
+            listId: parseInt(this.$route.params.listId as string),
         }
     },
     mounted() {

@@ -6,7 +6,6 @@ import Flex from '@/components/utilities/Flex.vue';
 import Relative from '../utilities/Relative.vue';
 
 import AlertOutput from '@/components/alert/AlertOutput.vue';
-import type IAlert from '@/components/alert/IAlert.ts';
 
 </script>
 
@@ -19,7 +18,7 @@ import type IAlert from '@/components/alert/IAlert.ts';
                 default: ''
             },
             alerts: {
-                type: Array<IAlert>,
+                type: Array as any,
                 default: []
             },
             visible: {
@@ -27,7 +26,7 @@ import type IAlert from '@/components/alert/IAlert.ts';
                 default: false
             },
             toggleVisiblity: {
-                type: Function ,
+                type: Function as any,
                 default: () => {}
             }
         },

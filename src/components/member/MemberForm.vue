@@ -9,7 +9,6 @@ import Flex from '@/components/utilities/Flex.vue';
 
 // Icons
 import IconUser from '@/components/icons/IconUser.vue';
-import IconLock from '@/components/icons/IconLock.vue';
 
 </script>
 

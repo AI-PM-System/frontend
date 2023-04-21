@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import TaskItem from '@/components/task/TaskItem.vue';
 import EmptyState from '../utilities/EmptyState.vue';
-import Badge from '@/components/utilities/Badge.vue'
 import Button from '@/components/utilities/Button.vue';
 import Flex from '../utilities/Flex.vue';
 </script>
@@ -48,7 +47,7 @@ export default {
         </div>
         <div>
             <template v-for="task in boardList.tasks">
-                <TaskItem :task="task" :boardId="this.boardList.boardId" />
+                <TaskItem :task="task" :boardId="boardList.boardId" />
             </template>
 
             <EmptyState v-if="boardList.tasks.length === 0">

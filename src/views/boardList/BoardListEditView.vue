@@ -13,7 +13,7 @@ export default {
     data() {
         return {
             boardList: {},
-            boardId: parseInt(this.$route.params.id)
+            boardId: parseInt(this.$route.params.id as string)
         }
     },
     mounted() {
