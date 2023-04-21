@@ -34,13 +34,13 @@ import Flex from '@/components/utilities/Flex.vue';
             }
         },
         mounted() {
-            findById(this.$route.params.id, (json) => {
+            findById(this.$route.params.id as string, (json) => {
                 this.board = json;
             }, (err) => {
                 console.log(err);
             });
 
-            findAllByBoardId(this.$route.params.id, (json) => {
+            findAllByBoardId(this.$route.params.id as string, (json) => {
                 this.boardLists.push(... json);
             }, (err) => {
                 console.log(err);
@@ -75,8 +75,3 @@ import Flex from '@/components/utilities/Flex.vue';
         <Button display="block" @click="showBoards">Close</Button>
     </StickyElement>
 </template>
-
-<style scoped>
-.boardList {
-}
-</style>
