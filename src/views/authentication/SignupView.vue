@@ -64,8 +64,9 @@ export default {
             </h2>
 
             <p>
-                Signup to get started with UniTaskPro.
+                Signup to get started with UniTaskPro
             </p>
+            <small class="disabled">Signup disabled</small>
         </header>
 
         <InputControl>
@@ -173,6 +174,10 @@ export default {
 header {
     text-align: center;
     margin-bottom: 2rem;
+}
+
+.disabled {
+    color: var(--color-danger);
 }
 
 @media (min-width: 1024px) {}

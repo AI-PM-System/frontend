@@ -18,11 +18,11 @@ import Flex from '@/components/utilities/Flex.vue'
             }
         },
         methods: {
-            openProject() {
+            setupProject(callback: any) {
                 const onLoadProjectMember = () => {
                     findByTypeAndProjectId('MAIN', this.project.id, (json) => {
-                        this.$ls.set('mainChatId', json.id);
-                        this.$router.push(`/chat/${json.id}`);
+                        this.$ls.set('mainChatId', json.id);                        
+                        callback(json);
                     }, (error) => {
                         console.log(error);
                     });
@@ -36,8 +36,15 @@ import Flex from '@/components/utilities/Flex.vue'
                     console.log(error);
                 });
             },
+            openProject() {
+                this.setupProject((json: any) => {
+                    this.$router.push(`/chat/${json.id}`);
+                });
+            },
             manageProject() {
-                this.$router.push(`/project/${this.project.id}/manage`);
+                this.setupProject((json: any) => {
+                    this.$router.push(`/project/${this.project.id}/manage`);
+                });
             }
         }
     }

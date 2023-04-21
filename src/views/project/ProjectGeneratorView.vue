@@ -4,6 +4,8 @@ import { getAnyIncomplete, cancel, complete, proceed, create } from '@/composabl
 import { findMe } from '@/composables/user';
 import { findAll as findAllActors } from '@/composables/project_generator_actor';
 import { findAll as findAllTones } from '@/composables/project_generator_tone';
+import { findById as findChatById } from '@/composables/chat';
+import { findMyMemberByProjectId } from '@/composables/member';
 
 import ChatOutput from '@/components/chat/ChatOutput.vue';
 import ChatMessage from '@/components/chat/ChatMessage.vue'
@@ -12,6 +14,8 @@ import Flex from '@/components/utilities/Flex.vue'
 import StickyElement from '@/components/utilities/StickyElement.vue';
 import InputControl from '@/components/utilities/InputControl.vue'
 import Button from '@/components/utilities/Button.vue';
+import ChatLoader from '@/components/chat/ChatLoader.vue';
+
 
 import IconGear from '@/components/icons/IconGear.vue'
 
@@ -30,6 +34,7 @@ export default {
             generatorId: 0,
             credits: 0,
             settingsVisible: false,
+            isWaitingForMessage: false,
             example: {
                 user: {
                     firstName: 'Example',
@@ -80,9 +85,11 @@ export default {
             const generatorId = this.generatorId;
 
             this.saveLocalMessage(content);
+            this.isWaitingForMessage = true;
 
             if (this.generatorId == 0) {
                 create({ content, actorId: this.actorId, toneId: this.toneId }, (json: any) => {
+                    this.isWaitingForMessage = false;
                     this.generatorId = json.id;
                     this.messages.push(...json.messages);
                     this.content = '';
@@ -91,6 +98,7 @@ export default {
                 });
             } else {
                 proceed({ content, generatorId }, (json: any) => {
+                    this.isWaitingForMessage = false;
                     this.messages.push(...json.messages);
                     this.content = '';
                     if (json.completed) {
@@ -103,15 +111,20 @@ export default {
         },
         tryComplete() {
             if (this.generatorId == 0) {
-                this.sendMessage({ code: 'Enter'});
+                this.sendMessage({ code: 'Enter' });
                 return;
             }
 
+            this.isWaitingForMessage = true;
+
             complete(this.generatorId, (json: any) => {
+                this.isWaitingForMessage = false;
                 this.messages.push(...json.messages);
                 this.content = '';
                 if (json.completed) {
-                    this.$router.push('/chat/' + json.mainChatId);
+                    this.setupProject(json.mainChatId, (member: any) => {
+                        this.$router.push('/chat/' + json.mainChatId);
+                    });
                 }
             }, (err: any) => {
                 console.log(err);
@@ -126,7 +139,27 @@ export default {
         },
         toggleSettings() {
             this.settingsVisible = !this.settingsVisible;
-        }
+        },
+        setupProject(chatId: number, callback: any) {
+            this.$ls.set('mainChatId', chatId);
+
+            const onLoadProjectChat = (projectId: number) => {
+                findMyMemberByProjectId(projectId, (json: any) => {
+                this.$ls.set('memberId', json.id);
+                this.$ls.set('memberRoles', json.roles);
+                callback(json);
+                }, (error: any) => {
+                    console.log(error);
+                });
+            }
+
+            findChatById(chatId, (json: any) => {
+                onLoadProjectChat(json.projectId);
+                
+            }, (error) => {
+                console.log(error);
+            });
+        },
     },
     mounted() {
         getAnyIncomplete((json: any) => {
@@ -201,9 +234,7 @@ export default {
 
             <StickyElement top="auto" left="auto" width="250px" padding="1rem 1rem 0 1rem" bg="var(--color-background)">
                 <InputControl>
-                    <Button bg="var(--color-background)" 
-                            display="block"
-                            @click="toggleSettings">Close</Button>
+                    <Button bg="var(--color-background)" display="block" @click="toggleSettings">Close</Button>
                 </InputControl>
             </StickyElement>
         </div>
@@ -216,8 +247,10 @@ export default {
             </div>
         </template>
 
-        <template #additionalMessages v-if="hasNoCredit">
-            <ChatMessage :message="outOfCredit" class="example-message" />
+        <template #additionalMessages>
+            <ChatMessage :message="outOfCredit" class="example-message" v-if="hasNoCredit" />
+
+            <ChatLoader v-if="isWaitingForMessage" />
         </template>
     </ChatOutput>
 
@@ -228,26 +261,16 @@ export default {
 
                 <input v-model="content" placeholder="Enter message ..." @keydown="sendMessage" />
 
-                <Button 
-                    class="complete-button" 
-                    :bg="createBgColor" 
-                    color="#fff" 
-                    :disabled="createBtnDisabled"
+                <Button class="complete-button" :bg="createBgColor" color="#fff" :disabled="createBtnDisabled"
                     @click="tryComplete">CREATE</Button>
 
-                <Button 
-                    class="complete-button" 
-                    :bg="resetBgColor"
-                    color="#fff" 
-                    :disabled="resetBtnDisabled"
+                <Button class="complete-button" :bg="resetBgColor" color="#fff" :disabled="resetBtnDisabled"
                     @click="tryCancel">RESET</Button>
 
-                <Button 
-                    class="complete-button" 
-                    bg="var(--color-background)"
-                    color="#fff" 
-                    v-if="hasNoGenerator"
-                    @click="toggleSettings"><IconGear /></Button>
+                <Button class="complete-button" bg="var(--color-background)" color="#fff" v-if="hasNoGenerator"
+                    @click="toggleSettings">
+                    <IconGear />
+                </Button>
 
                 <div class="credits">
                     <p>Credits: <strong>{{ credits }}</strong></p>
@@ -259,7 +282,6 @@ export default {
 </template>
 
 <style scoped>
-
 .credits {
     margin-left: auto;
     margin-right: 0;

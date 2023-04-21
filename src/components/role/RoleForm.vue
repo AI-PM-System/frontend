@@ -79,7 +79,7 @@ export default {
 <template>
     <Container>
         <header>
-            <h2>{{ submitText }} board</h2>
+            <h2>{{ submitText }} role</h2>
             <p>Enter role information below.</p>
         </header>
 

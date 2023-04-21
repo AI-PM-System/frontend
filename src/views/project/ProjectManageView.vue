@@ -24,17 +24,11 @@ export default {
         showEvents() {
             this.$router.push(`/events`);
         },
-        showTasks() {
-            this.$router.push(`/tasks`);
-        },
         showMembers() {
             this.$router.push(`/members`);
         },
         showRoles() {
             this.$router.push(`/roles`);
-        },
-        showChats() {
-            this.$router.push(`/chats`);
         },
         showBoards() {
             this.$router.push(`/boards`);
@@ -53,8 +47,6 @@ export default {
         <Button display="block" bg="var(--color-background)" @click="showRoles">Roles</Button>
         <Button display="block" bg="var(--color-background)" @click="showEvents">Events</Button>
         <Button display="block" bg="var(--color-background)" @click="showMembers">Members</Button>
-        <Button display="block" bg="var(--color-background)" @click="showTasks">Tasks</Button>
-        <Button display="block" bg="var(--color-background)" @click="showChats">Chats</Button>
         <Button display="block" bg="var(--color-background)" @click="showBoards">Boards</Button>
         <Button display="block" bg="var(--color-danger)" color="var(--color-background)">Delete project</Button>
     </Container>

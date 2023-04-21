@@ -30,6 +30,12 @@
             roles() : any[] {
                 return this.message.member?.roles;
             }
+        },
+        mounted() {
+            this.$nextTick(() => {
+                const wrapper = this.$el as HTMLElement;
+                wrapper.scrollIntoView();
+            });
         }
     }
 </script>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { login, setJwt, routeHomeIfAuthenticated } from '@/composables/authentication';
+import { login, setJwt, getUsername, routeHomeIfAuthenticated } from '@/composables/authentication';
 
 // Components
 import Container from '@/components/utilities/Container.vue';
@@ -30,6 +30,7 @@ export default {
             (json) => {
                 const { jwt } = json;
                 setJwt(jwt);
+                this.$ls.set('username', getUsername());
                 this.$router.push('/projects');
             },
             (error) => {

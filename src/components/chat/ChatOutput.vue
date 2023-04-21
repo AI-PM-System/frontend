@@ -34,11 +34,11 @@ export default {
             </p>
         </template>
 
-        <slot name="additionalMessages"></slot>
-
         <template v-for="__message in messages">
             <ChatMessage :message="__message" />
         </template>
+
+        <slot name="additionalMessages"></slot>
     </div>
 </template>
 
