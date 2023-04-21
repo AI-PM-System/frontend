@@ -13,11 +13,12 @@ export default {
     data() {
         return {
             role: {},
-            projectId: getProjectId()
+            projectId: getProjectId(),
+            roleId: parseInt(this.$route.params.id as string)
         }
     },
     mounted() {
-        findById(this.$route.params.id, (json) => {
+        findById(this.roleId, (json) => {
             this.role = json;
         }, (err) => {
             console.log(err);

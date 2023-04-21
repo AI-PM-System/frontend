@@ -26,7 +26,8 @@ export default {
             messages: [] as any[],
             alerts: [] as any[],
             projectId: 0 as any,
-            visible: false as any
+            visible: false as any,
+            chatId: parseInt(this.$route.params.id as string)
         }
     },
     computed: {
@@ -67,7 +68,7 @@ export default {
         }
     },
     mounted() {
-        findById(this.$route.params.id, (json) => {
+        findById(this.chatId, (json) => {
             this.chat = json;
             this.projectId = json.projectId;
             setProjectId(json.projectId);
@@ -75,7 +76,7 @@ export default {
             console.log(err);
         });
         
-        findAllByChatId(this.$route.params.id, (json) => {
+        findAllByChatId(this.chatId, (json) => {
             this.messages = json;
         }, (err) => {
             console.log(err);

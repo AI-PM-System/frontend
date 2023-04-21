@@ -13,11 +13,12 @@ export default {
     data() {
         return {
             event: {},
-            projectId: getProjectId()
+            projectId: getProjectId(),
+            eventId: parseInt(this.$route.params.id as string)
         }
     },
     mounted() {
-        findById(this.$route.params.id, (json) => {
+        findById(this.eventId, (json) => {
             this.event = json;
         }, (err) => {
             console.log(err);
