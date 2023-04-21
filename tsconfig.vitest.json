@@ -6,6 +6,7 @@
     "lib": [],
     "types": ["node", "jsdom"],
     "noImplicitAny": false,
-    "allowJs": true
+    "allowJs": true,
+    "strict": false
   }
 }
