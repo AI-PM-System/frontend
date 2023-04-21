@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
 import { findAllByProjectId } from '@/composables/member';
 
 import EmptyState from '@/components/utilities/EmptyState.vue';
@@ -18,14 +18,14 @@ export default {
     },
     methods: {
         backToMainChat() {
-            this.$router.push('/chat/' + this.$ls.get('projectId'));
+            this.$router.push('/chat/' + getProjectId());
         },
         newMember() {
             this.$router.push('/member/new');
         }
     },
     mounted() {
-        findAllByProjectId(this.$ls.get('projectId'), (json) => {
+        findAllByProjectId(getProjectId(), (json) => {
             this.members.push(... json);
         }, (err) => {
             console.log(err);

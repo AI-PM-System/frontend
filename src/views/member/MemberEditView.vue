@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
 import { findById, update } from '@/composables/member';
 
 import MemberForm from '@/components/member/MemberForm.vue';
@@ -12,7 +12,8 @@ import Button from '@/components/utilities/Button.vue';
 export default {
     data() {
         return {
-            member: {}
+            member: {},
+            projectId: getProjectId()
         }
     },
     mounted() {
@@ -44,7 +45,7 @@ export default {
     <MemberForm 
         :member="member"
         :action="updateMember" 
-        :projectId="this.$ls.get('projectId')"
+        :projectId="projectId"
         submitText="Update" 
     />
 

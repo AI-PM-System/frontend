@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
 import { create } from '@/composables/board';
 
 import BoardForm from '@/components/board/BoardForm.vue';
@@ -10,6 +10,11 @@ import Button from '@/components/utilities/Button.vue';
 
 <script lang="ts">
 export default {
+    data() {
+        return {
+            projectId: getProjectId()
+        }
+    },
     mounted() {
         routeLoginIfNotAuthenticated();
     },
@@ -32,7 +37,7 @@ export default {
 <template>
     <BoardForm 
         :action="createBoard" 
-        :projectId="this.$ls.get('projectId')"
+        :projectId="projectId"
         submitText="Create" 
     />
 

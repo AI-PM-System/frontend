@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { findMyMemberByProjectId } from '@/composables/member';
 import { findByTypeAndProjectId } from '@/composables/chat';
+import { setMemberId, setMemberRoles, setMainChatId } from '@/composables/authentication';
 
 import Badge from '@/components/utilities/Badge.vue'
 import Button from '@/components/utilities/Button.vue'
@@ -20,7 +21,7 @@ import Flex from '@/components/utilities/Flex.vue'
             setupProject(callback: any) {
                 const onLoadProjectMember = () => {
                     findByTypeAndProjectId('MAIN', this.project.id, (json) => {
-                        this.$ls.set('mainChatId', json.id);                        
+                        setMainChatId(json.id);             
                         callback(json);
                     }, (error) => {
                         console.log(error);
@@ -28,8 +29,8 @@ import Flex from '@/components/utilities/Flex.vue'
                 }
 
                 findMyMemberByProjectId(this.project.id, (json) => {
-                    this.$ls.set('memberId', json.id);
-                    this.$ls.set('memberRoles', json.roles);
+                    setMemberId(json.id);
+                    setMemberRoles(json.roles);
                     onLoadProjectMember();
                 }, (error) => {
                     console.log(error);

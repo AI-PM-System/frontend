@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
 import { findById, update } from '@/composables/role';
 
 import RoleForm from '@/components/role/RoleForm.vue';
@@ -12,7 +12,8 @@ import Button from '@/components/utilities/Button.vue';
 export default {
     data() {
         return {
-            role: {}
+            role: {},
+            projectId: getProjectId()
         }
     },
     mounted() {
@@ -44,7 +45,7 @@ export default {
     <RoleForm 
         :role="role"
         :action="updateRole" 
-        :projectId="this.$ls.get('projectId')"
+        :projectId="projectId"
         submitText="Update" 
     />
 

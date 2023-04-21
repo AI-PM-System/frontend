@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getUsername, setProjectId, getMemberId } from '@/composables/authentication';
 import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
 import { findById } from '@/composables/chat';
 import { findAllByChatId, create } from '@/composables/message';
@@ -38,7 +39,7 @@ export default {
             const __message = {
                 content: this.content,
                 user: {
-                    username: this.$ls.get('username'),
+                    username: getUsername(),
                 }
             } as any;
 
@@ -51,8 +52,8 @@ export default {
             create({
                 content: this.content,
                 chatId: this.chat.id,
-                memberId: this.$ls.get('memberId'),
-                username: this.$ls.get('username')
+                memberId: getMemberId(),
+                username: getUsername()
             }, (json: any) => {
                 this.messages.push(json);
                 this.content = '';
@@ -69,7 +70,7 @@ export default {
         findById(this.$route.params.id, (json) => {
             this.chat = json;
             this.projectId = json.projectId;
-            this.$ls.set('projectId', json.projectId);
+            setProjectId(json.projectId);
         }, (err) => {
             console.log(err);
         });

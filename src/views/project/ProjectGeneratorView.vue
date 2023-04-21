@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getUsername, setMemberId, setMemberRoles, setMainChatId } from '@/composables/authentication';
 import { getAnyIncomplete, cancel, complete, proceed, create } from '@/composables/project_generator';
 import { findMe } from '@/composables/user';
 import { findAll as findAllActors } from '@/composables/project_generator_actor';
@@ -70,7 +70,7 @@ export default {
             const __message = {
                 content: this.content,
                 user: {
-                    username: this.$ls.get('username'),
+                    username: getUsername(),
                 }
             } as any;
 
@@ -141,12 +141,12 @@ export default {
             this.settingsVisible = !this.settingsVisible;
         },
         setupProject(chatId: number, callback: any) {
-            this.$ls.set('mainChatId', chatId);
+            setMainChatId(chatId);
 
             const onLoadProjectChat = (projectId: number) => {
                 findMyMemberByProjectId(projectId, (json: any) => {
-                this.$ls.set('memberId', json.id);
-                this.$ls.set('memberRoles', json.roles);
+                    setMemberId(json.id);
+                    setMemberRoles(json.roles);
                 callback(json);
                 }, (error: any) => {
                     console.log(error);

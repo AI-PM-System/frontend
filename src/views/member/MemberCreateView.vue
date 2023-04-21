@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
 import { create } from '@/composables/member';
 
 import MemberForm from '@/components/member/MemberForm.vue';
@@ -32,7 +32,7 @@ export default {
 <template>
     <MemberForm 
         :action="createMember" 
-        :projectId="this.$ls.get('projectId')"
+        :projectId="getProjectId()"
         submitText="Create" 
     />
 

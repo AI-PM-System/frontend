@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { getUsername } from '@/composables/authentication';
     import Badge from '@/components/utilities/Badge.vue'
     import Flex from '@/components/utilities/Flex.vue'
 </script>
@@ -13,7 +14,7 @@
         },
         computed: {
             me() : boolean {
-                return this.message.user?.username === this.$ls.get('username');
+                return this.message.user?.username === getUsername();
             },
             justifyContentStyle() : string {
                 return this.me ? 'flex-end' : 'flex-start';

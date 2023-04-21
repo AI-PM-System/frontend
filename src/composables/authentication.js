@@ -109,3 +109,76 @@ function getDecodedJwt() {
     const base64 = base64Url.replace('-', '+').replace('_', '/');
     return JSON.parse(window.atob(base64));
 }
+
+/**
+ * set main chat id
+ * 
+ * @param {Number} id
+ */
+export function setMainChatId(id) {
+    localStorage.setItem('UniTaskPro_mainChatId', id);
+}
+
+/**
+ * set member id
+ * 
+ * @param {Number} id
+ */
+export function setMemberId(id) {
+    localStorage.setItem('UniTaskPro_memberId', id);
+}
+
+/**
+ * set member roles
+ * 
+ * @param {Array} roles
+ */
+export function setMemberRoles(roles) {
+    localStorage.setItem('UniTaskPro_memberRoles', roles);
+}
+
+/**
+ * get main chat id
+ * 
+ * @returns {Number}
+ */
+export function getMainChatId() {
+    return localStorage.getItem('UniTaskPro_mainChatId');
+}
+
+/**
+ * get member id
+ * 
+ * @returns {Number}
+ */
+export function getMemberId() {
+    return localStorage.getItem('UniTaskPro_memberId');
+}
+
+/**
+ * get member roles
+ * 
+ * @returns {Array}
+ */
+export function getMemberRoles() {
+    return localStorage.getItem('UniTaskPro_memberRoles');
+}
+
+/**
+ * set project id
+ * 
+ * @param {Number} id
+ */
+export function setProjectId(id) {
+    localStorage.setItem('UniTaskPro_projectId', id);
+}
+
+/**
+ * get project id
+ * 
+ * @returns {Number}
+ */
+export function getProjectId() {
+    return localStorage.getItem('UniTaskPro_projectId');
+}
+

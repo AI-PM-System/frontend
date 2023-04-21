@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { findAllByProjectId } from '@/composables/role';
+import { getProjectId } from '@/composables/authentication';
 
 // Components
 import Container from '@/components/utilities/Container.vue';
@@ -79,7 +80,7 @@ export default {
         }
     },
     mounted() {
-        findAllByProjectId(this.$ls.get('projectId'), (json) => {
+        findAllByProjectId(getProjectId(), (json) => {
             this.roles = json;
         }, (error) => {
             console.log(error);
