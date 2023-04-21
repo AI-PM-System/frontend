@@ -19,7 +19,8 @@ import Flex from '@/components/utilities/Flex.vue';
             return {
                 board: {},
                 boardLists: [],
-                excludeShow: true
+                excludeShow: true,
+                boardId: parseInt(this.$route.params.id as string)
             }
         },
         methods: {
@@ -34,13 +35,13 @@ import Flex from '@/components/utilities/Flex.vue';
             }
         },
         mounted() {
-            findById(this.$route.params.id as string, (json) => {
+            findById(this.boardId, (json) => {
                 this.board = json;
             }, (err) => {
                 console.log(err);
             });
 
-            findAllByBoardId(this.$route.params.id as string, (json) => {
+            findAllByBoardId(this.boardId, (json) => {
                 this.boardLists.push(... json);
             }, (err) => {
                 console.log(err);

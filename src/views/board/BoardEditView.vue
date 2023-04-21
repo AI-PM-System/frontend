@@ -13,11 +13,12 @@ export default {
     data() {
         return {
             board: {},
-            projectId: getProjectId()
+            projectId: getProjectId(),
+            boardId: parseInt(this.$route.params.id as string)
         }
     },
     mounted() {
-        findById(this.$route.params.id, (json) => {
+        findById(this.boardId, (json) => {
             this.board = json;
         }, (err) => {
             console.log(err);
