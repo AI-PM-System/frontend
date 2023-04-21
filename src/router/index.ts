@@ -48,11 +48,6 @@ const router = createRouter({
 
     // Role
     {
-      path: '/role/:id',
-      name: 'inspect role',
-      component: () => import('../views/role/RoleView.vue')
-    },
-    {
       path: '/roles',
       name: 'inspect roles',
       component: () => import('../views/role/RoleCollectionView.vue')
@@ -70,11 +65,6 @@ const router = createRouter({
 
     // Member
     {
-      path: '/member/:id',
-      name: 'inspect member',
-      component: () => import('../views/member/MemberView.vue')
-    },
-    {
       path: '/members',
       name: 'inspect members',
       component: () => import('../views/member/MemberCollectionView.vue')
@@ -91,11 +81,6 @@ const router = createRouter({
     },
 
     // Event
-    {
-      path: '/event/:id',
-      name: 'inspect event',
-      component: () => import('../views/event/EventView.vue')
-    },
     {
       path: '/events',
       name: 'inspect events',
