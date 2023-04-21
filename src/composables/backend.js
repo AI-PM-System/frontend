@@ -18,7 +18,7 @@ export async function request(_options, callback, errorCallback) {
       options.headers['Authorization'] = `Bearer ${jwt}`;
     }
 
-    const response = await fetch(`http://localhost:8080/api/v1/${_options.url}`, options);
+    const response = await fetch(`https://api.bergandersen.com/v1/${_options.url}`, options);
 
     if (response.ok) {
       const data = await response.json();
