@@ -114,3 +114,32 @@
     margin-left: .5rem;
 }
 </style>
+
+<style>
+.chat-message .message-output strong {
+    font-weight: 600;
+}
+.chat-message .message-output hr {
+    border: 1px dashed var(--vt-c-divider-dark-2);
+    margin-bottom: .5rem;
+}
+.chat-message .message-output h4 {
+    font-weight: 600;
+    margin-bottom: .5rem;
+}
+.chat-message .message-output p {
+    margin-top: 0;
+    margin-bottom: .5rem;
+}
+.chat-message .message-output .a {
+    border: 1px solid;
+    display: block;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+    color: var(--color-danger);
+}
+.chat-message .message-output .a:hover {
+    background-color: var(--color-danger-hover);
+}
+</style>

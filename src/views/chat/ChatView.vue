@@ -100,8 +100,8 @@ export default {
         :joinInfo="joinInfo" 
         :messages="messages">
         <template #emptyState>
-            Seems like you're the first one here. 
-            Say hi to start the conversation!
+            <p class="empty-state-desc">Seems like you're the first one here. 
+            Say hi to start the conversation!</p>
         </template>
     </ChatOutput>
     
@@ -131,3 +131,10 @@ export default {
     </StickyElement>
 </template>
 
+<style scoped>
+.empty-state-desc {
+    color: var(--color-text-secondary);
+    font-size: 0.8rem;
+    text-align: center;
+}
+</style>

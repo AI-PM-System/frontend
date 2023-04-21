@@ -29,10 +29,12 @@ export default {
         </div>
         
         <template v-if="showEmptyState">
-            <p class="chat-output-info">
+            <p>
                 <slot name="emptyState"></slot>
             </p>
         </template>
+
+        <slot name="additionalMessages"></slot>
 
         <template v-for="__message in messages">
             <ChatMessage :message="__message" />

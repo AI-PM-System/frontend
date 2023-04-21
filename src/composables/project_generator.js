@@ -39,7 +39,21 @@ export function proceed(generatorRequest, callback, errorCallback) {
  */
 export function cancel(id, callback, errorCallback) {
     request({
-        url: `user/generate/project/force-complete/${id}`,
+        url: `user/generate/project/cancel/${id}`,
+        method: 'POST',
+    }, callback, errorCallback);
+}
+
+/**
+ * Completes the project generator.
+ * 
+ * @param {Number} id
+ * @param {Function} callback
+ * @param {Function} errorCallback
+ */
+export function complete(id, callback, errorCallback) {
+    request({
+        url: `user/generate/project/complete/${id}`,
         method: 'POST',
     }, callback, errorCallback);
 }
