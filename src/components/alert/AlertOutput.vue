@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Alert from '@/components/alert/Alert.vue';
-import IAlert from '@/components/alert/IAlert.ts';
 </script>
 
 <script lang="ts" >
@@ -12,7 +11,7 @@ export default {
             default: 'Notifications'
         },
         alerts: {
-            type: Array<IAlert>,
+            type: Array as any,
             default: []
         }
     },
