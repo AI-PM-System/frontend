@@ -85,10 +85,13 @@ export default {
             const generatorId = this.generatorId;
 
             this.saveLocalMessage(content);
-            this.content = '';
-
-            
+            this.content = '';                        
             this.isWaitingForMessage = true;
+
+            this.$nextTick(() => {
+                const wrapper = this.$el as HTMLElement;
+                wrapper.scrollIntoView();
+            });
 
             if (this.generatorId == 0) {
                 create({ content, actorId: this.actorId, toneId: this.toneId }, (json: any) => {
