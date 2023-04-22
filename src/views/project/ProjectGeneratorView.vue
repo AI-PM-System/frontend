@@ -83,6 +83,7 @@ export default {
 
             const content = this.content;
             const generatorId = this.generatorId;
+            this.content = '';
 
             this.saveLocalMessage(content);
             this.isWaitingForMessage = true;
@@ -92,7 +93,6 @@ export default {
                     this.isWaitingForMessage = false;
                     this.generatorId = json.id;
                     this.messages.push(...json.messages);
-                    this.content = '';
                 }, (err: any) => {
                     console.log(err);
                 });
@@ -100,7 +100,6 @@ export default {
                 proceed({ content, generatorId }, (json: any) => {
                     this.isWaitingForMessage = false;
                     this.messages.push(...json.messages);
-                    this.content = '';
                     if (json.completed) {
                         this.$router.push('/chat/' + json.mainChatId);
                     }
@@ -115,12 +114,13 @@ export default {
                 return;
             }
 
+            this.content = '';
             this.isWaitingForMessage = true;
 
             complete(this.generatorId, (json: any) => {
                 this.isWaitingForMessage = false;
                 this.messages.push(...json.messages);
-                this.content = '';
+                
                 if (json.completed) {
                     this.setupProject(json.mainChatId, (member: any) => {
                         this.$router.push('/chat/' + json.mainChatId);

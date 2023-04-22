@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { routeLoginIfNotAuthenticated, getProjectId } from '@/composables/authentication';
+import { routeLoginIfNotAuthenticated, getMainChatId, getProjectId } from '@/composables/authentication';
 import { findAllByProjectId } from '@/composables/board';
 
 import EmptyState from '@/components/utilities/EmptyState.vue';
@@ -18,7 +18,7 @@ export default {
     },
     methods: {
         backToMainChat() {
-            this.$router.push('/chat/' + getProjectId());
+            this.$router.push('/chat/' + getMainChatId());
         },
         newBoard() {
             this.$router.push('/board/new');

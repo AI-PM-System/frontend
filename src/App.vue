@@ -12,9 +12,9 @@ import IconHome from '@/components/icons/IconHome.vue';
 
 <script lang="ts">
 export default {    
-    computed: {
-      authenticated() {
-            return isAuthenticated();
+    data() {
+        return {
+            authenticated: isAuthenticated()
         }
     },
     methods: {
@@ -22,6 +22,11 @@ export default {
             logout();
             this.$router.push('/login');
         },
+    },
+    created() {
+        this.$watch('$route', () => {
+            this.authenticated = isAuthenticated();
+        });
     }
 };
 </script>
@@ -32,19 +37,19 @@ export default {
       <RouterLink to="/" class="brand">UniTaskPro</RouterLink>
 
       <Flex alignItems="center" gap="10px" width="auto">
-        <RouterLink to="/" v-if="!isAuthenticated">
+        <RouterLink to="/" v-if="!authenticated">
           <IconHome />
         </RouterLink>
 
-        <RouterLink to="/login" v-if="!isAuthenticated">
+        <RouterLink to="/login" v-if="!authenticated">
           <IconLogin />
         </RouterLink>
 
-        <RouterLink to="/projects" v-if="isAuthenticated">
+        <RouterLink to="/projects" v-if="authenticated">
           <IconDiagram />
         </RouterLink>  
 
-        <button v-if="isAuthenticated" @click="handleLogout">
+        <button v-if="authenticated" @click="handleLogout">
           <IconLogout />
         </button>
       </Flex>
