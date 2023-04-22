@@ -50,14 +50,17 @@ export default {
             if (e.code != 'Enter' && e.code != 'NumpadEnter') {
                 return;
             }
+
+            const content = this.content;
+            this.content = '';
             create({
-                content: this.content,
+                content: content,
                 chatId: this.chat.id,
                 memberId: getMemberId(),
                 username: getUsername()
             }, (json: any) => {
                 this.messages.push(json);
-                this.content = '';
+                
             }, (err: any) => {
                 console.log(err);
             });

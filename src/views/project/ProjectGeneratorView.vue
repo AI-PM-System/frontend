@@ -83,9 +83,11 @@ export default {
 
             const content = this.content;
             const generatorId = this.generatorId;
-            this.content = '';
 
             this.saveLocalMessage(content);
+            this.content = '';
+
+            
             this.isWaitingForMessage = true;
 
             if (this.generatorId == 0) {
